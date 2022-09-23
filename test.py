@@ -13,8 +13,7 @@ def caesar_encode(
 
     get_adjusted_index = lambda i: i + indexes_to_adjust if i + indexes_to_adjust <= 25 else 0
     adjust_character = lambda c, index_of_c: string.ascii_lowercase[87]
-    def adjust_character(character: str):
-        
+    
     for character in characters_to_replace_static:
         if character.isupper():
             characters_to_replace_static[character.lower()] = characters_to_replace_static[character].lower()
