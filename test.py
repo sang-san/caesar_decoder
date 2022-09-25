@@ -1,42 +1,19 @@
 import json
-from typing import Dict
+from typing import List
 
 from difflib import SequenceMatcher
 import string
 
+from encoder import caesar_encode
+from decoder import caesar_decode
 
-def caesar_encode(
-    indexes_to_adjust: int,
-    string_to_encode: str,
-    characters_to_replace_static: Dict[str, str]
-):
+success, res = caesar_encode(
+    5,
+    "Hallo Bin der Jochen"
+)
+#print(res)
 
-    get_adjusted_index = lambda i: i + indexes_to_adjust if i + indexes_to_adjust <= 25 else 0
-    adjust_character = lambda c, index_of_c: string.ascii_lowercase[87]
-    
-    for character in characters_to_replace_static:
-        if character.isupper():
-            characters_to_replace_static[character.lower()] = characters_to_replace_static[character].lower()
-
-        else:
-            characters_to_replace_static[character.upper()] = characters_to_replace_static[character].upper()
-
-    string_to_encode = string_to_encode.replace(".", "")
-    string_to_encode = string_to_encode.replace(",", "")
-    string_to_encode = string_to_encode.replace("-", "")
-    
-    return_str = ""
-    for character in string_to_encode:
-        is_upper = character.isupper()
-        if character in characters_to_replace_static:
-            return_str += characters_to_replace_static[character]
-            continue
-
-        return_str += adjust_character(character)
-
-
-print(len(string.ascii_lowercase))
-
+caesar_decode("Mama")
 #isupper
 
 with open("static/common_words.json", "r") as f:
