@@ -1,5 +1,5 @@
-
-from tools import get_index, adjust_character, alphabet_groß, alphabet_klein
+# -*- coding: utf-8 -*-
+from tools import get_index, adjust_character, alphabet_gross, alphabet_klein, characters_to_ignore
 
 def caesar_encode(
     indexes_to_adjust: int,
@@ -12,12 +12,19 @@ def caesar_encode(
             return_str += " "
             continue
 
-        if not character in alphabet_groß and not character in alphabet_klein:
+
+        if character in characters_to_ignore:
+            return_str += character
             continue
+        
+        else:
+            
+            if not character in alphabet_gross and not character in alphabet_klein:
+                continue
 
         try:
             is_upper = character.isupper()
-            index_of = alphabet_groß.index(character) if is_upper else alphabet_klein.index(character)
+            index_of = alphabet_gross.index(character) if is_upper else alphabet_klein.index(character)
         
         except:
             print("failed on character " + character + ".")

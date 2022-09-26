@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+          font-family: Arial, Helvetica, sans-serif;
+          font-size: 25px;
+          padding: 30px;
+          line-height: 1.6;
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 30px;
+        border-bottom: 1px #ccc solid;
+      }
+
+      h2 {
+        margin-top: 20px;
+      }
+
+      button {
+        cursor: pointer;
+        display: block;
+        background: #333;
+        color: #fff;
+        border: 0;
+        border-radius: 5px;
+        padding: 10px 20px;
+        margin: 20px 0;
+        height: 60px;
+      }
+
+      input[type="text"] {
+        border: 2px #ccc solid;
+        width: 300px;
+        padding: 4px;
+        height: 50px;
+        margin-top: 20px;
+      }
+
+      .card {
+        margin: 20px 0;
+        border: #ccc 1px solid;
+        padding: 20px;
+      }
+
+      .box {
+          background: steelblue;
+          width: 1.6em;
+          height: 1.6em;
+      }
+    </style>
+    <title>Caesar</title>
+</head>
+<body>
+    <h1>Standart Caesar Ver- und Entschlüsselung</h1>
+
+
+    <button id="encode-button" onclick="get_encoded()">Verschlüsseln</button>
+
+    <label for="indexes-to-adjust">Anzahl an Buchstaben Verschiebungen (positiv):</label>
+    <input type="number" id="indexes-to-adjust" name="indexes-to-adjust" min="0" max="25">
+    
+    <div>
+        <label for="encode-text">Text:</label>
+        <input type="text" id="encode-text" placeholder="Text zu Verschlüsseln">
+    </div>
+
+    <div id="encoded-text" class="card">Verschlüsselungs Ergebnis</div>
+
+
+
+    <button id="decode-button" onclick="get_decoded()">Entschlüsseln</button>
+
+    
+    <div>
+        <label for="decode-text">Text:</label>
+        <input type="text" id="decode-text" placeholder="Text zu Entschlüsseln">
+    </div>
+
+    <div id="decoded-text" class="card">Entschlüsselungs Ergebnis</div>
+    <div id="decoded-text-two" class="card"></div>
+
+    <label for="example-one">Beispiel Aufgabe 1:</label>
+    <div id="example-one" class="card">IW KEF WGLSR MQQIV ZIVXVEYPMGLI REGLVMGLXIR HMI RYV JYIV IMRIR QIRWGLIR KIHEGLX WMRH YRH WSRWX ZSR RMIQERH ERHIVIR KIPIWIR AIVHIR WSPPIR</div>
+    
+    <label for="example-two">Aufgaben 2, 3 Funktionieren hiermit nicht, da nicht alle Buchstaben nach einer bestimmten Zahl verschoben wurden :)</label>
+    
+    <script>
+        function get_encoded(e) {
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open( "POST", "https://sangsansos.pythonanywhere.com/encode", false ); // false for synchronous request
+            
+            xmlHttp.send(JSON.stringify({
+                "text_to_encode": document.querySelector("#encode-text").value,
+                "indexes_to_adjust": Number.parseFloat(document.querySelector("#indexes-to-adjust").value)
+            }));
+            let resp = JSON.parse(xmlHttp.responseText)
+            document.querySelector("#encoded-text").textContent = "Erfolg: " + resp.success + " Verschlüsselter Text: " + resp.res_text
+
+        }
+        function get_decoded() {
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open( "POST", "https://sangsansos.pythonanywhere.com/decode", false ); // false for synchronous request
+
+            xmlHttp.send(JSON.stringify({
+                "text_to_decode": document.querySelector("#decode-text").value,
+            }));
+            let resp = JSON.parse(xmlHttp.responseText)
+            document.querySelector("#decoded-text").textContent = "Erfolg: " + resp.success + " Verschlüsselter Text: " + resp.res_text
+            document.querySelector("#decoded-text-two").textContent = "Durchschnittlicher Match " + resp.avg_match  + " --  Benutze Verschiebung (ins Positive): " + resp.believed_adjustment
+
+        }
+        
+    </script>
+
+
+</body>
+</html>
