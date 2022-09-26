@@ -11,15 +11,8 @@ success, res = caesar_encode(
     5,
     "Hallo Bin der Jochen"
 )
-#print(res)
+print(res)
 
-caesar_decode("Mama")
+caesar_decode(res)
 #isupper
 
-with open("static/common_words.json", "r") as f:
-    common_words = json.load(f)
-
-string_to_decode = ""
-
-s = SequenceMatcher(None, "abcd", "bcde")
-s.ratio()

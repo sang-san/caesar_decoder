@@ -1,7 +1,7 @@
 import json
 
 from difflib import SequenceMatcher
-import string
+from tools import alphabet_groß, alphabet_klein
 
 from tools import get_index, adjust_character
 
@@ -39,9 +39,9 @@ def get_percentage_matches(
 def caesar_decode(
     string_to_decode: str
 ):
-    list_of_individual_matches_lists = [ ]
+    adjustment_index_res_lists = []
 
-    for adjustment_index in range(26):
+    for adjustment_index in range(len(alphabet_klein)):
         total_match = 0.0
         individual_match_lists = []
 
@@ -50,3 +50,7 @@ def caesar_decode(
             
             total_match += best_match[1]
             individual_match_lists.append(best_match)
+
+        
+
+# [[adjustment_index, total_match, [["Hallo", 1.0], ["Simon", 0.5]]]]

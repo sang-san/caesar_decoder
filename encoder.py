@@ -1,36 +1,23 @@
-import string
-from typing import List
 
-from tools import get_index, adjust_character
+from tools import get_index, adjust_character, alphabet_groß, alphabet_klein
 
 def caesar_encode(
     indexes_to_adjust: int,
     string_to_encode: str,
-    characters_to_ignore: List[str] = [
-        "ö",
-        "Ö",
-        "ü",
-        "Ü"
-    ]
 ):
-    for character_to_remove in [
-        ".", ",", ":", ";", "-", "_"
-    ]:
-        string_to_encode = string_to_encode.replace(character_to_remove, "")
-    
     return_str = ""
+
     for character in string_to_encode:
         if character == " ":
             return_str += " "
             continue
 
-        if character in characters_to_ignore:
-            return_str += character
+        if not character in alphabet_groß and not character in alphabet_klein:
             continue
 
         try:
             is_upper = character.isupper()
-            index_of = string.ascii_uppercase.index(character) if is_upper else string.ascii_lowercase.index(character)
+            index_of = alphabet_groß.index(character) if is_upper else alphabet_klein.index(character)
         
         except:
             print("failed on character " + character + ".")
